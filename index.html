@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8" />
+    <title>Is it time?</title>
+    <meta name="description" content="Is it time?" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        background-color: #212326;
+        font-family: "Helvetica Neue", "Arial Nova", Helvetica, Arial,
+          sans-serif;
+        color: #c3bfc0;
+        user-select: none;
+      }
+      #content {
+        font-weight: 500;
+        font-size: min(100px, 10vw);
+      }
+      #title {
+        font-weight: 900;
+        font-size: min(300px, 30vw);
+      }
+      #container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="title"></div>
+      <div id="content"></div>
+    </div>
+    <script>
+      const jsConfetti = new JSConfetti();
+      function update() {
+        const el = document.getElementById("content");
+        const title = document.getElementById("title");
+        const now = new Date();
+        const target = new Date(1646490300000);
+        if (now >= target || true) {
+          title.innerText = "Yes.";
+          title.style.color = "#3be139";
+          el.innerText = "";
+          jsConfetti.addConfetti({
+            emojis: ["🎿", "🏂", "⛷️", "🚡"],
+          });
+          setTimeout(
+            () =>
+              jsConfetti.addConfetti({
+                emojis: ["🎿", "🏂", "⛷️", "🚡"],
+              }),
+            500
+          );
+        } else {
+          title.innerText = "No.";
+          const ms = target - now;
+          const hours = Math.floor(ms / 1000 / 60 / 60);
+          const minutes = Math.floor((ms % (60 * 60 * 1000)) / 1000 / 60);
+          const seconds = Math.floor((ms % (60 * 1000)) / 1000);
+          el.innerText = `${hours}h:${minutes < 10 ? "0" : ""}${minutes}m:${
+            seconds < 10 ? "0" : ""
+          }${seconds}s`;
+        }
+      }
+      update();
+      setInterval(update, 1000);
+    </script>
+  </body>
+</html>
